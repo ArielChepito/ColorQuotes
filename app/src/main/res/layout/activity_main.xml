@@ -23,7 +23,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:padding="10dp"
+        android:textStyle="italic"/>
 
     <TextView
         android:id="@+id/autorTextView"
@@ -37,7 +39,8 @@
         android:textColor="@android:color/holo_blue_bright"
         android:textSize="24sp"
         app:layout_constraintRight_toRightOf="@+id/citaTextView"
-        app:layout_constraintTop_toBottomOf="@+id/citaTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/citaTextView"
+        android:padding="10dp"/>
 
     <Button
         android:id="@+id/nuevaCitaButton"
@@ -52,5 +55,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        android:textStyle="bold"/>
 </android.support.constraint.ConstraintLayout>

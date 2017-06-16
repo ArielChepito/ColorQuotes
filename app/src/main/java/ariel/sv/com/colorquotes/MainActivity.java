@@ -1,5 +1,6 @@
 package ariel.sv.com.colorquotes;
 
+import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,56 +13,56 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity {
     //nombre del tag para los logs
     public static final String TAG = MainActivity.class.getSimpleName();
+    private static final String CITA ="cita" ;
+    private static final String AUTOR = "autor";
+    private static final String COLOR = "color";
     //Nuestros elementos
     private TextView citaTextView;
     private TextView autorTextView;
     private Button nuevaCitaButton;
-    private String[] autores;
-    private String[] citas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Inicializando nuestras variables:O
-        autores = new String[5];
-        citas = new String[5];
-
         //Variables ligados a nuestra UI:3
         citaTextView = (TextView)this.findViewById(R.id.citaTextView);
         autorTextView = (TextView)this.findViewById(R.id.autorTextView);
         nuevaCitaButton = (Button)this.findViewById(R.id.nuevaCitaButton);
+    }
 
-        //dando valores:3
-        autores[0] = "Walt Disney";
-        citas[0] = "Aprendí que lo difícil no es llegar a la cima, sino jamás dejar de subir";
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(CITA,citaTextView.getText().toString());
+        outState.putString(AUTOR,autorTextView.getText().toString());
+        outState.putInt(COLOR, citaTextView.getCurrentTextColor());
+    }
 
-        autores[1] = "Albert Einstein";
-        citas[1] = "La imaginación es más importante que el conocimiento";
-
-        autores[2] = "Steve Jobs";
-        citas[2] = "Tu tiempo es limitado, así que no lo desperdicies viviendo la vida de otra persona";
-
-        autores[3] = "Albert Camus";
-        citas[3] = "El éxito es fácil de obtener. Lo difícil es merecerlo.";
-
-        autores[4] = "Irving Berlin";
-        citas[4] = "El sabio no dice lo que sabe, y el necio no sabe lo que dice.";
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        Log.d(TAG,"restoreInstaceSate");
+        ///para recuperar nuestros datos guardados cuandoo cambie la orientación
+        int color = savedInstanceState.getInt(COLOR);
+        citaTextView.setTextColor(color);
+        autorTextView.setTextColor(color);
+        nuevaCitaButton.setBackgroundColor(color);
+        citaTextView.setText(savedInstanceState.getString(CITA));
+        autorTextView.setText(savedInstanceState.getString(AUTOR));
 
     }
 
     public void clickNuevaCita(View view){
-        int numeroRandom = generarNuevosAleatorios(citas.length);
-        String cita = citas[numeroRandom];
-        String autor = autores[numeroRandom];
-        citaTextView.setText(cita);
-        autorTextView.setText(autor);
+        GeneradorCitas generadorCitas = new GeneradorCitas();
+        Cita cita  = generadorCitas.obtenerCitaAleatoria();
+        citaTextView.setText(cita.getText());
+        autorTextView.setText(cita.getAutor());
+        citaTextView.setTextColor(cita.getColor());
+        autorTextView.setTextColor(cita.getColor());
+        nuevaCitaButton.setBackgroundColor(cita.getColor());
     }
 
-    private int generarNuevosAleatorios(int max){
-        Random random = new Random();
-        random.setSeed(System.currentTimeMillis());
-        return random.nextInt(max);
-    }
+
 }
